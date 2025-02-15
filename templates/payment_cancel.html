@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="payment-cancel">
+    <h2>Payment Canceled</h2>
+    <p>Your subscription was not processed. You can try again anytime.</p>
+    <div class="actions">
+        <a href="{{ url_for('subscription_plans') }}" class="btn btn-primary">Back to Plans</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Go to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

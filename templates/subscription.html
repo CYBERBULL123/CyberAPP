@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="subscription-container">
+    <h2>Select a Subscription Plan</h2>
+
+    {% if plans %}
+    <div class="plans-wrapper">
+        {% for plan in plans %}
+        <div class="plan-card {% if plan.name.lower() == current_user.subscription_plan.lower() %}current-plan{% endif %}">
+            <h3>{{ plan.name }} Plan</h3>
+            
+            <div class="price">
+                {% if plan.price > 0 %}
+                <strong>${{ plan.price }}/month</strong>
+                {% else %}
+                <strong>Free</strong>
+                {% endif %}
+            </div>
+            
+            <div class="features_sub">
+                <h4>Features:</h4>
+                <ul>
+                    {% for feature in plan.features.split('\n') %}
+                    <li>{{ feature }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="token-info">
+                <strong>
+                    {% if plan.tokens == -1 %}
+                    Unlimited Reports
+                    {% else %}
+                    {{ plan.tokens }} Reports/Month
+                    {% endif %}
+                </strong>
+            </div>
+
+            {% if plan.name.lower() != current_user.subscription_plan.lower() %}
+            <form action="{{ url_for('create_checkout_session', plan_id=plan.id) }}" method="POST">
+                <br>
+                <button type="submit" class="btn btn-primary">
+                    {% if current_user.subscription_plan == 'free' %}Upgrade{% else %}Change{% endif %}
+                </button>
+            </form>
+            {% else %}
+            <div class="current-plan-label">Your Current Plan</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No subscription plans available at the moment.</p>
+    {% endif %}
+
+    <div class="billing-info">
+        <h4>Billing Information</h4>
+        {% if current_user.stripe_customer_id %}
+        <a href="{{ url_for('profile') }}">View Payment History</a>
+        <form action="{{ url_for('cancel_subscription') }}" method="POST">
+            <button type="submit" class="btn btn-danger">Cancel Subscription</button>
+        </form>
+        {% else %}
+        <p>You are currently not subscribed to any paid plan.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="payment-success">
+    <h2>Payment Successful! 🎉</h2>
+    <p>Your subscription has been activated successfully.</p>
+    <div class="success-details">
+        <p>New Plan: {{ current_user.subscription_plan|capitalize }}</p>
+        <p>Account Status: {{ current_user.subscription_status|capitalize }}</p>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+</div>
+{% endblock %}

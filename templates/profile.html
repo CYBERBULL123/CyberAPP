@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h2>Account Settings</h2>
+        <div class="profile-status">
+            <span class="status-badge {{ 'active' if current_user.subscription_status == 'active' else 'inactive' }}">
+                {{ current_user.subscription_status|capitalize }}
+            </span>
+        </div>
+    </div>
+
+    <div class="profile-content">
+        <form method="POST" class="profile-form">
+            <!-- Email Update -->
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" value="{{ current_user.email }}" required>
+            </div>
+            
+            <!-- Password Update -->
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="password" placeholder="Enter new password">
+                <small class="form-text">Leave blank to keep current password</small>
+            </div>
+            
+            <!-- Subscription Info -->
+            <div class="subscription-info">
+                <h3>Your Subscription</h3>
+                <div class="subscription-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Plan:</span>
+                        <span class="detail-value">{{ current_user.subscription_plan|capitalize }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Tokens:</span>
+                        <span class="detail-value">{{ current_user.tokens }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value {{ current_user.subscription_status }}">
+                            {{ current_user.subscription_status|capitalize }}
+                        </span>
+                    </div>
+                    {% if current_user.active_until %}
+                    <div class="detail-item">
+                        <span class="detail-label">Renews:</span>
+                        <span class="detail-value">{{ current_user.active_until.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <a href="/subscription" class="btn btn-primary">Manage Subscription</a>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-save">Save Changes</button>
+                <a href="/dashboard" class="btn btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
