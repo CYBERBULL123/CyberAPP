@@ -1,5 +1,5 @@
 
-# **CyberSec AI** 🛡️
+# **CypherDeck AI** 🛡️
 
 ## **Overview** 🌐
 This is a **Flask-based web application** that allows users to upload files (e.g., CSV, TXT, DOCX, PDF, etc.), extract text from them, and generate **AI-powered cybersecurity reports** using a **LangChain agent**. The application includes **user authentication**, **file uploads**, **report generation**, and **PDF download functionality**.
